@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+        <body ng-app="app" ng-controller="appController">
+        {{2+2}}
+
+        <div>
+            <label>PinCode</label>
+            <input type="text" ng-model = "pincode"/>
+
+            <label>Radius</label>
+            <input type="text" ng-model = "radius"/>
+
+            <select ng-model="serviceType">
+                <option value="Service">Service </option>
+                <option value="Parts"> Parts </option>
+                <option value="Sales"> Sales </option>
+            </select>
+            <button ng-click="printValues()">clickme</button>
+        </div>
+    </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="http://underscorejs.org/underscore-min.js"></script>
+    <script>
+        var app = angular.module("app", []);
+        app.controller("appController", function($scope, $q, $http) {
+            $scope.printValues = function(POST_API) {
+                console.log("hello world " + $scope.pincode);
+                //var url = "https://api.github.com/users/sonusgsits08/repos";
+                var url = POST_API;
+                $http.get(url)
+                        .then(function (response) {
+                            $scope.apiResponse = response.data;
+                            angular.forEach($scope.apiResponse,function (value,key) {
+                                console.log("key:"+key+" project name: "+value.name);
+                            });
+                        })
+            };
+        });
+    </script>
+</html>
