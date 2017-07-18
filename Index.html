@@ -6,40 +6,148 @@
     </head>
         <body ng-app="app" ng-controller="appController">
         {{2+2}}
-
-        <div>
-            <label>PinCode</label>
-            <input type="text" ng-model = "pincode"/>
-
+<div>
             <label>Radius</label>
             <input type="text" ng-model = "radius"/>
+
+            <label>Contact No</label>
+            <input type="text" ng-model = "contactNo"/>
 
             <select ng-model="serviceType">
                 <option value="Service">Service </option>
                 <option value="Parts"> Parts </option>
                 <option value="Sales"> Sales </option>
             </select>
-            <button ng-click="printValues()">clickme</button>
+            <label>Model No</label>
+            <input type="text" ng-model = "modelNo"/>
+            <label>PinCode</label>
+            <input type="text" ng-model = "pincode"/>
+            <button ng-click="showDealerDetails()">clickMe</button>
+
+            <!-- Output-->
+            <ul>
+                <li ng-repeat="store in apiResponse.stores">
+                    {{store.storeName}}
+                </li>
+            </ul>
+
+        <div style="float:left;width: 70%">
+            <table border="1" id="showOutput">
+                <thead>
+                    <th>Store name</th>
+                    <th>Address</th>
+                    <th>Location</th>
+                    <th>Phone</th>
+                    <th>Distance from you</th>
+                </thead>
+                <tr ng-repeat="store in apiResponse.stores">
+                    <td>{{store.storeName}}</td>
+                    <td>{{store.formatted_address}}</td>
+                    <td>{{store.location.lat}}   {{store.location.lng}}</td>
+                    <td>{{store.physicalAddress.phone.code}}  {{store.physicalAddress.phone.phoneNumber}}</td>
+                    <td>{{store.distanceFromUser}}</td>
+                </tr>
+            </table>
         </div>
+        <div style="float:right;width: 30%">
+            <img src="images/mercedes.jpeg">
+        </div>
+</div>
     </body>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="http://underscorejs.org/underscore-min.js"></script>
+    <link rel = "stylesheet"
+          type = "text/css"
+          href = "style.css" />
     <script>
         var app = angular.module("app", []);
         app.controller("appController", function($scope, $q, $http) {
-            $scope.printValues = function(POST_API) {
+            $scope.showDealerDetails = function(POST_API) {
                 console.log("hello world " + $scope.pincode);
-                //var url = "https://api.github.com/users/sonusgsits08/repos";
-                var url = POST_API;
+                var url = "https://api.github.com/users/sonusgsits08/repos";
                 $http.get(url)
                         .then(function (response) {
-                            $scope.apiResponse = response.data;
+                            $scope.apiResponse = $scope.responseData ;
+
                             angular.forEach($scope.apiResponse,function (value,key) {
                                 console.log("key:"+key+" project name: "+value.name);
                             });
                         })
             };
+            // mock
+            $scope.responseData = {
+                "stores": [{
+                    "storeId": "S123456789",
+                    "storeName": "xyz dealer",
+                    "physicalAddress": {
+                        "streetAddress": "6315 E Auto Park Dr ",
+                        "city": "Mesa",
+                        "state": "Arizona",
+                        "stateCode": "AZ",
+                        "country": "",
+                        "postalCode": "85206",
+                        "phone": {
+                            "code": "555",
+                            "phoneNumber": "1234567"
+                        }
+                    },
+                    "formatted_address": "6315 E Auto Park Dr, Mesa, AZ 85206, USA",
+                    "location": {
+                        "lat": 33.38,
+                        "lng": -111.69
+                    },
+                    "distanceFromUser": 5,
+                    "place_id": "ChIJ301Sj7SvK4cRMwe9l-d6Ung"
+                },
+                    {
+                        "storeId": "S423847268",
+                        "storeName": "abc dealer",
+                        "physicalAddress": {
+                            "streetAddress": "1234 N ABC Park",
+                            "city": "New York",
+                            "state": "New York",
+                            "stateCode": "NY",
+                            "country": "",
+                            "postalCode": "77777",
+                            "phone": {
+                                "code": "333",
+                                "phoneNumber": "2136998"
+                            }
+                        },
+                        "formatted_address": "1234 N ABC Park, New York, NY 77777, USA",
+                        "location": {
+                            "lat": 44.38,
+                            "lng": 99.69
+                        },
+                        "distanceFromUser": 12,
+                        "place_id": "vqwhefvqwjhvbqwkjb-d6Ung"
+                    },
+                    {
+                        "storeId": "S39847938",
+                        "storeName": "PQR dealer",
+                        "physicalAddress": {
+                            "streetAddress": "2222 S Some Park",
+                            "city": "Portland",
+                            "state": "Oregon",
+                            "stateCode": "OR",
+                            "country": "",
+                            "postalCode": "88888",
+                            "phone": {
+                                "code": "222",
+                                "phoneNumber": "5837468"
+                            }
+                        },
+                        "formatted_address": "2222 S Some Park, Portland, OR 88888, USA",
+                        "location": {
+                            "lat": 77.38,
+                            "lng": 55.69
+                        },
+                        "distanceFromUser": 9,
+                        "place_id": "jqwhefbqjwhefefwfvjwh-d6Ung"
+                    }
+                ]
+            }
         });
     </script>
 </html>
