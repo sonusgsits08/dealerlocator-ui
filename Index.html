@@ -6,7 +6,7 @@
     </head>
         <body ng-app="app" ng-controller="appController">
         <!--{{2+2}}-->
-<div>
+<div ng-controller="appController">
     <div>
         <table>
             <tr>
@@ -15,7 +15,6 @@
             <tr>
                 <td colspan="1"><label>Radius</label></td> <td colspan="1"><input type="text" ng-model = "radius"/></td>
             </tr>
-
             <tr>
                 <td colspan="1"><label>Choose Service Type</label></td>
                 <td colspan="1">
@@ -26,20 +25,33 @@
                 <option value="SERVICEMERCHANDISING"> SERVICE MERCHANDISING </option>
                  <option value="SALESMANAGEMENT"> SALES MANAGEMENT </option>
                 </select>
-                    </td>
+                </td>
             </tr>
             <tr>
                 <td colspan="1"><label>Model No</label></td> <td colspan="1"><input type="text" ng-model = "modelNo"/></td>
             </tr>
-
             <tr>
-                <td colspan="1">            <label>Pin Code</label>  </td> <td colspan="1"><input type="text" ng-model = "pincode"/></td>
+                <td colspan="1"> <label>Street Address</label>  </td> <td colspan="1"><input type="text" ng-model = "streetAddress"/></td>
+            </tr>
+            <tr>
+                <td colspan="1"> <label>City</label>  </td> <td colspan="1"><input type="text" ng-model = "city"/></td>
+            </tr>
+            <tr>
+                <td colspan="1"> <label>State Code</label>  </td> <td colspan="1"><input type="text" ng-model = "stateCode"/></td>
+            </tr>
+            <tr>
+                <td colspan="1"> <label>State</label>  </td> <td colspan="1"><input type="text" ng-model = "state"/></td>
+            </tr>
+            <tr>
+                <td colspan="1"> <label>Country</label>  </td> <td colspan="1"><input type="text" ng-model = "country"/></td>
+            </tr>
+            <tr>
+                <td colspan="1"> <label>Pin Code</label>  </td> <td colspan="1"><input type="text" ng-model = "pincode"/></td>
             </tr>
             <tr>
                 <td colspan="2" align="center">       <button ng-click="showDealerDetails()" id="submitButton">submit</button></td>
             </tr>
         </table>
-
 <br>
     </div>
     <!-- Code to show API response-->
@@ -48,23 +60,21 @@
                 <thead id="outputheader">
                     <th>Store name</th>
                     <th>Address</th>
-                    <th>Location</th>
-                    <th>Phone</th>
-                    <th>Distance from you(in Km)</th>
+                    <!--<th>Location</th>-->
+                    <th>Distance from you(in Miles)</th>
                 </thead>
-                <tr ng-repeat="store in apiResponse.stores">
+                <tr ng-repeat="store in responseData.storeDetails">
                     <td>{{store.storeName}}</td>
-                    <td>{{store.formatted_address}}</td>
-                    <td>{{store.location.lat}}  , {{store.location.lng}}</td>
-                    <td>{{store.physicalAddress.phone.code}} , {{store.physicalAddress.phone.phoneNumber}}</td>
-                    <td>{{store.distanceFromUser}}</td>
+                    <td>{{store.formattedAddress}}</td>
+                    <!--<td>{{store.longitude}}  , {{store.latitude}}</td>-->
+                    <td>{{store.distance}}</td>
                 </tr>
             </table>
         </div>
 
 
     <div style="float:right;width: 30%">
-        <marquee behavior="slide" direction="left">
+        <marquee behavior="slide" direction="left" onmousedown ="this.stop();">
             <img src="images/mercedes.jpeg">
     </marquee>
     </div>
